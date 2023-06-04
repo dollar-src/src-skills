@@ -58,7 +58,7 @@ end)
 
 local function CheckVersion()
     PerformHttpRequest(
-        "https://raw.githubusercontent.com/dollar-src/src-pawnshop/main/version.txt",
+        "https://raw.githubusercontent.com/dollar-src/src-skills/main/version.txt",
         function(err, newestVersion, headers)
             local currentVersion = GetResourceMetadata(GetCurrentResourceName(), "version")
             if not newestVersion then
