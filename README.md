@@ -5,7 +5,9 @@
 * A database held skill/XP system for QBCore and ESX
 
 
-**[PREVIEW]()**
+# PREVIEW
+![image-removebg-preview (1)](https://github.com/dollar-src/src-skills/assets/78104813/bfee1461-f2b3-4ba7-bce4-d6b614523502)
+
 
 **[ Installation ]**
 * Download the resource and drop it to your resource folder.
