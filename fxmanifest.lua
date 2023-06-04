@@ -20,5 +20,10 @@ server_scripts {
     'server.lua'
 }
 
-version   '1.2'
+version   '1.0'
 
+
+exports {
+    "UpdateSkill",
+    "GetCurrentSkill"
+}
