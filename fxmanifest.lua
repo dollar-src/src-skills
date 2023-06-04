@@ -4,7 +4,6 @@ fx_version 'bodacious'
 game 'gta5'
 
 shared_scripts {
-   'locale.lua',
    'config.lua',
    '@ox_lib/init.lua',
 }
