@@ -217,7 +217,3 @@ RegisterNetEvent("mz-skills:client:CheckSkills", function()
     createSkillMenuOX()
 end)
 
-RegisterCommand('cu', function ()
-    UpdateSkill('Mining', 300)
-
-end)
