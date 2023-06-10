@@ -1,7 +1,22 @@
 ---@diagnostic disable: undefined-global, param-type-mismatch, missing-parameter
 
 
+RegisterNetEvent('esx:playerLoaded', function()
+    Citizen.CreateThread(function()
+        FetchSkills()
+        while true do
+            local seconds = 300 * 1000
+            Citizen.Wait(seconds)
+            for skill, value in pairs(Config.Skills) do
+                UpdateSkill(skill, value["RemoveAmount"])
+            end
+            TriggerServerEvent("skillsystem:update", json.encode(Config.Skills))
+        end
+    end)
 
+
+
+end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 	Citizen.CreateThread(function()
