@@ -131,7 +131,6 @@ exports('CheckSkill', function(skill, val, hasskill)
     end
 end)
 
-
 local function createSkillMenuOX()
     local options = {}
     local sortedSkills = {}
@@ -143,52 +142,21 @@ local function createSkillMenuOX()
         return a.Current < b.Current
     end)
 
-    local options = {}
     for _, v in ipairs(sortedSkills) do
-        local SkillLevel
-        if v['Current'] <= 100 then
-            SkillLevel = 'Level 0 - XP: '..math.round(v['Current'])
-            v['Min'] = 0
-            v['Max'] = 100
-        elseif v['Current'] > 100 and v['Current'] <= 200 then
-            SkillLevel = 'Level 1 - XP: '..math.round(v['Current'])
-            v['Min'] = 100
-            v['Max'] = 200
-        elseif v['Current'] > 200 and v['Current'] <= 400 then
-            SkillLevel = 'Level 2 - XP: '..math.round(v['Current'])
-            v['Min'] = 200
-            v['Max'] = 400
-        elseif v['Current'] > 400 and v['Current'] <= 800 then
-            SkillLevel = 'Level 3 - XP: '..math.round(v['Current'])
-            v['Min'] = 400
-            v['Max'] = 800
-        elseif v['Current'] > 800 and v['Current'] <= 1600 then
-            SkillLevel = 'Level 4 - XP: '..math.round(v['Current'])
-            v['Min'] = 800
-            v['Max'] = 1600
-        elseif v['Current'] > 1600 and v['Current'] <= 3200 then
-            SkillLevel = 'Level 5 - XP: '..math.round(v['Current'])
-            v['Min'] = 1600
-            v['Max'] = 3200
-        elseif v['Current'] > 3200 and v['Current'] <= 6400 then
-            SkillLevel = 'Level 6 - XP: '..math.round(v['Current'])
-            v['Min'] = 3200
-            v['Max'] = 6400
-        elseif v['Current'] > 6400 and v['Current'] <= 12800 then
-            SkillLevel = 'Level 7 - XP: '..math.round(v['Current'])
-            v['Min'] = 6400
-            v['Max'] = 12800
-        elseif v['Current'] > 12800 then
-            SkillLevel = 'Level 8 - XP: '..math.round(v['Current'])
-            v['Min'] = 12800
-            v['Max'] = 1000000
-        else 
-            SkillLevel = 'Unknown'
-        end
-        local cu = math.floor((v['Current'] - v['Min']) / (v['Max'] - v['Min']) * 100)
-
+        local SkillLevel = 'Unknown'
         local color = ""
-        
+
+        for i, limit in ipairs(Config.Levels) do
+            if v.Current > limit.min and (v.Current <= limit.max or i == #Config.Levels) then
+                SkillLevel = 'Level '..(i - 1)..' - XP: '..math.round(v.Current)
+                v.Min = limit.min
+                v.Max = limit.max
+                break
+            end
+        end
+
+        local cu = math.floor((v.Current - v.Min) / (v.Max - v.Min) * 100)
+
         if cu >= 0 and cu <= 20 then
             color = "red"
         elseif cu > 20 and cu <= 40 then
@@ -198,26 +166,26 @@ local function createSkillMenuOX()
         elseif cu > 70 and cu <= 100 then
             color = "green"
         end
-                table.insert(options, {
+
+        table.insert(options, {
             arrow = true,
             icon = v.icon,
             title = v.name,
-            description = '( '..SkillLevel..' ) Total XP ( '..math.round(v['Max'])..' )',
-            progress = math.floor((v['Current'] - v['Min']) / (v['Max'] - v['Min']) * 100),
+            description = '( '..SkillLevel..' ) Total XP ( '..math.round(v.Max)..' )',
+            progress = cu,
             colorScheme = color
         })
-        
     end
+
     lib.registerContext({
         id = 'test',
         title = Config.SkillTitle,
         options = options,
     })
 
-
     lib.showContext('test')
-
 end
+
 Citizen.CreateThread(function()
     if Config.EnableCommand then
         RegisterCommand(Config.Command, function()
