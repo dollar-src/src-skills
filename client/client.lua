@@ -47,7 +47,11 @@ AddEventHandler('onResourceStart', function(resource)
    end
 end)
 
-
+AddEventHandler('playerDropped', function (reason)
+    for skill, value in pairs(Config.Skills) do
+            Config.Skills[skill]["Current"] = 0
+        end
+end)
 FetchSkills = function()
     lib.callback('skillsystem:fetchStatus', source, function(data)
 		if data then
